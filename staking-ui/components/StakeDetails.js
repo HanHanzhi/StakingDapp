@@ -12,7 +12,7 @@ export default function StakeDetails() {
 
   //reward token address
   //reward token ABI: copy from defi-minimal file artifacts/contracts/rewardToken
-  //and added to a new file con constants/rewardTokenAbi.json
+  //and added to a new file con constants/rewardTokenAbi.json (same is done for staking)
 
   return <div>Hi from stake details</div>;
 }
