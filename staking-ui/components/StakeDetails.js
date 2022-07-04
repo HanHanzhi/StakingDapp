@@ -3,6 +3,11 @@
 //num of tokens staked
 //num of tokens earned
 
+//first we need to figure out who is connected to the website using useMoralis
+import { useMoralis } from "react-moralis";
+
 export default function StakeDetails() {
+  const { account } = useMoralis();
+  console.log(account);
   return <div>Hi from stake details</div>;
 }
