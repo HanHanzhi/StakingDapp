@@ -20,12 +20,33 @@ import { ethers } from "ethers";
 export default function StakeDetails() {
   const { account, isWeb3Enabled } = useMoralis();
   const { rtBalance, setRtBalance } = useState("0");
+  const { stakedBalance, setStakedBalance } = useState("0");
+  const { earnedBalance, setEarnedBalance } = useState("0");
 
   //this is how we call any function that we want using runContractFunction
   const { runContractFunction: getRtBalance } = useWeb3Contract({
     abi: rewardTokenAbi,
     contractAddress: rewardTokenAddress,
     functionName: "balanceOf",
+    params: {
+      account: account,
+    },
+  });
+
+  const { runContractFunction: getStakedBalance } = useWeb3Contract({
+    abi: stakingAbi,
+    contractAddress: stakingAddress,
+    //getStaked from Staking.sol
+    functionName: "getStaked",
+    params: {
+      account: account,
+    },
+  });
+
+  const { runContractFunction: getEarnedBalance } = useWeb3Contract({
+    abi: stakingAbi,
+    contractAddress: stakingAddress,
+    functionName: "earned",
     params: {
       account: account,
     },
@@ -41,6 +62,7 @@ export default function StakeDetails() {
   }, [account, isWeb3Enabled]);
 
   async function updateUiValues() {
+    //////////////////////////////RtBalance//////////////
     const rtBalanceFromContract = (
       await getRtBalance({ onError: (error) => console.log(error) })
     ).toString;
@@ -49,6 +71,26 @@ export default function StakeDetails() {
       "ethers"
     );
     setRtBalance(formattedRtBalanceFromContract);
+
+    ////////////////////////////////staking/////////////////////
+    const stakedBalanceFromContract = (
+      await getStakedBalance({ onError: (error) => console.log(error) })
+    ).toString;
+    const formattedStakedBalanceFromContract = ethers.utils.formatUnites(
+      stakedBalanceFromContract,
+      "ethers"
+    );
+    setStakedBalance(formattedStakedBalanceFromContract);
+
+    ////////////////////////////////earned////////////////////////
+    const earnedBalanceFromContract = (
+      await getEarnedBalance({ onError: (error) => console.log(error) })
+    ).toString;
+    const formattedEarnedBalanceFromContract = ethers.utils.formatUnites(
+      earnedBalanceFromContract,
+      "ethers"
+    );
+    setEarnedBalance(formattedEarnedBalanceFromContract);
   }
   console.log(account);
 
@@ -58,7 +100,9 @@ export default function StakeDetails() {
 
   return (
     <div>
-      <div>RT Blance is: {rtBalance} </div>Hi from stake details
+      <div>RT Balance is: {rtBalance} </div>
+      <div>Staked Balance is: {stakedBalance} </div>
+      <div>Earned Balance is: {earnedBalance} </div>
     </div>
   );
 }
