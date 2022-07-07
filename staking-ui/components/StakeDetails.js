@@ -19,6 +19,9 @@ import { ethers } from "ethers";
 
 export default function StakeDetails() {
   const { account, isWeb3Enabled } = useMoralis();
+
+  //useState firs return a current value and then a function that let use update it
+  //the two returned value are then captured in x and setx
   const { rtBalance, setRtBalance } = useState("0");
   const { stakedBalance, setStakedBalance } = useState("0");
   const { earnedBalance, setEarnedBalance } = useState("0");
@@ -46,6 +49,7 @@ export default function StakeDetails() {
   const { runContractFunction: getEarnedBalance } = useWeb3Contract({
     abi: stakingAbi,
     contractAddress: stakingAddress,
+    //earned from Staking.sol
     functionName: "earned",
     params: {
       account: account,
