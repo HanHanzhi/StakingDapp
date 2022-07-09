@@ -10,6 +10,7 @@ import {
   stakingAbi,
   stakingAddress,
 } from "../constants";
+import { Form } from "web3uikit";
 
 export default function StakeForm() {
   const { runContractFunction } = useWeb3Contract();
@@ -23,4 +24,20 @@ export default function StakeForm() {
     contractAddress: stakingAddress,
     functionName: "stake",
   };
+
+  return (
+    <div>
+      <Form
+        data={[
+          {
+            inputWidth: "50%",
+            name: "Amount to stake (in ETH)",
+            type: "number",
+            value: "",
+            key: "amountToStake",
+          },
+        ]}
+      ></Form>
+    </div>
+  );
 }
