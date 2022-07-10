@@ -34,6 +34,7 @@ export default function StakeForm() {
     };
     console.log("Approving...");
     const tx = await runContractFunction({
+      params: approveOptions,
       onError: (error) => console.log(error),
       //if we confirm and it works out
       onSuccess: () => {
