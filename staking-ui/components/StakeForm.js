@@ -11,6 +11,7 @@ import {
   stakingAddress,
 } from "../constants";
 import { Form } from "web3uikit";
+import { ethers } from "ethers";
 
 export default function StakeForm() {
   const { runContractFunction } = useWeb3Contract();
@@ -25,9 +26,20 @@ export default function StakeForm() {
     functionName: "stake",
   };
 
+  async function handleStakeSubmit(data) {
+    const amountToApprove = data.data[0].inputResult;
+    approveOptions.params = {
+      amount: ethers.utils.parseUnits(amountToApprove, "ether").toString(),
+      spender: stakingAddress,
+    };
+    console.log("Approving...");
+  }
+
   return (
     <div>
       <Form
+        onSubmit={handleStakeSubmit}
+        //when we submit , we pass the data field below into the handleStakeSubmit function
         data={[
           {
             inputWidth: "50%",
