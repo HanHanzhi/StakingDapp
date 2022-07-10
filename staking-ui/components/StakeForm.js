@@ -33,6 +33,14 @@ export default function StakeForm() {
       spender: stakingAddress,
     };
     console.log("Approving...");
+    const tx = await runContractFunction({
+      onError: (error) => console.log(error),
+      //if we confirm and it works out
+      onSuccess: () => {
+        //we would wan to immediately stake afterwards
+        handleApproveSuccess(approveOptions.params.amount);
+      },
+    });
   }
 
   return (
