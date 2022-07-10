@@ -37,6 +37,7 @@ export default function StakeForm() {
             key: "amountToStake",
           },
         ]}
+        title="Let's stake!"
       ></Form>
     </div>
   );
