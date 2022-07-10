@@ -43,6 +43,22 @@ export default function StakeForm() {
     });
   }
 
+  async function handleApproveSuccess(amountToStakeFormatted) {
+    stakeOptions.params = {
+      amount: amountToStakeFormatted,
+    };
+    console.log("Staking %d RT Token...", stakeOptions.params.amount);
+    //tx means transaction
+    const tx = await runContractFunction({
+      params: stakeOptions,
+      onError: (error) => console.log(error),
+    });
+    //.wait(1) = waits for 1 confirmation, this serve as an additional mechanism to ensure that
+    //there is probabilistically a very low chance for a transaction to be reverted
+    await tx.wait(1);
+    console.log("Transaction has been confirmed by 1 block");
+  }
+
   return (
     <div>
       <Form
