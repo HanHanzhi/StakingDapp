@@ -56,7 +56,7 @@ export default function StakeForm() {
     });
     //.wait(1) = waits for 1 confirmation, this serve as an additional mechanism to ensure that
     //there is probabilistically a very low chance for a transaction to be reverted
-    await tx.wait(1);
+    await tx.wait();
     console.log("Transaction has been confirmed by 1 block");
   }
 

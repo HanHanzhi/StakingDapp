@@ -22,9 +22,9 @@ export default function StakeDetails() {
 
   //useState firs return a current value and then a function that let use update it
   //the two returned value are then captured in x and setx
-  const { rtBalance, setRtBalance } = useState("0");
-  const { stakedBalance, setStakedBalance } = useState("0");
-  const { earnedBalance, setEarnedBalance } = useState("0");
+  const [rtBalance, setRtBalance] = useState("0");
+  const [stakedBalance, setStakedBalance] = useState("0");
+  const [earnedBalance, setEarnedBalance] = useState("0");
 
   //this is how we call any function that we want using runContractFunction
   const { runContractFunction: getRtBalance } = useWeb3Contract({
@@ -68,34 +68,37 @@ export default function StakeDetails() {
   async function updateUiValues() {
     //////////////////////////////RtBalance//////////////
     const rtBalanceFromContract = (
-      await getRtBalance({ onError: (error) => console.log(error) })
-    ).toString;
-    const formattedRtBalanceFromContract = ethers.utils.formatUnites(
+      await getRtBalance({
+        onError: (error) => console.log(error),
+      })
+    ).toString();
+    const formattedRtBalanceFromContract = ethers.utils.formatUnits(
       rtBalanceFromContract,
-      "ethers"
+      "ether"
     );
     setRtBalance(formattedRtBalanceFromContract);
+    console.log("formmatedRTBlance = %d", formattedRtBalanceFromContract);
 
     ////////////////////////////////staking/////////////////////
     const stakedBalanceFromContract = (
       await getStakedBalance({ onError: (error) => console.log(error) })
-    ).toString;
-    const formattedStakedBalanceFromContract = ethers.utils.formatUnites(
+    ).toString();
+    const formattedStakedBalanceFromContract = ethers.utils.formatUnits(
       stakedBalanceFromContract,
-      "ethers"
+      "ether"
     );
     setStakedBalance(formattedStakedBalanceFromContract);
 
     ////////////////////////////////earned////////////////////////
     const earnedBalanceFromContract = (
       await getEarnedBalance({ onError: (error) => console.log(error) })
-    ).toString;
+    ).toString();
 
     console.log("Earned: %d", earnedBalanceFromContract);
 
-    const formattedEarnedBalanceFromContract = ethers.utils.formatUnites(
+    const formattedEarnedBalanceFromContract = ethers.utils.formatUnits(
       earnedBalanceFromContract,
-      "ethers"
+      "ether"
     );
     setEarnedBalance(formattedEarnedBalanceFromContract);
   }
